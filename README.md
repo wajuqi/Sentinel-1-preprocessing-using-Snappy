@@ -2,7 +2,7 @@
 
 1. Before running the code, you need to install the [Sentinel Toolbox Application (SNAP)](https://step.esa.int/main/download/snap-download/) and [configure Python to use the SNAP-Python (snappy) interface](https://senbox.atlassian.net/wiki/spaces/SNAP/pages/50855941/Configure+Python+to+use+the+SNAP-Python+snappy+interface)
 
-2. The code read in unzipped Sentinel-1 GRD products (EW and IW modes). Test data are provided in the data folder.
+2. The code read in unzipped Sentinel-1 GRD products (EW and IW modes).
     - Sentinel-1 images can be downloaded from:
       - [Sentinels Scientific Data Hub](https://scihub.copernicus.eu/dhus/#/home)  or
       - [Alaska Satellite Facility](https://vertex.daac.asf.alaska.edu/#)
