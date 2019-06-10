@@ -7,6 +7,7 @@
       - [Sentinels Scientific Data Hub](https://scihub.copernicus.eu/dhus/#/home)  or
       - [Alaska Satellite Facility](https://vertex.daac.asf.alaska.edu/#)
 3. Sentinel-1 pre-processing steps:
+    
     - Apply orbit file
     - GRD border noise removal
     - Thermal noise removal
