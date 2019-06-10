@@ -8,6 +8,7 @@
       - [Alaska Satellite Facility](https://vertex.daac.asf.alaska.edu/#)
 3. Sentinel-1 pre-processing steps:
     - Apply orbit file
+    - GRD border noise removal
     - Thermal noise removal
     - Radiometric calibration
     - Speckle filtering
