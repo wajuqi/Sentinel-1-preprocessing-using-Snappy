@@ -10,9 +10,10 @@
     - Apply orbit file
     - Thermal noise removal
     - Radiometric calibration
+    - Speckle filtering
     - Terrain correction
     - Subset
-    - Speckle filtering
+
    
    This is the general pre-processing steps for Sentinel-1. Since each step is written in separate function, it can be cutomized based on user needs.
    IW images are downsampled from 10m to 40m (the same resolution as EW images) in the terrain correction step.
