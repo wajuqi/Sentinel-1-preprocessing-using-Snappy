@@ -17,7 +17,7 @@ def do_apply_orbit_file(source):
     return output
 
 def do_remove_GRD_border_noise(source):
-    print('\tRemove GRD border noise...')
+    print('\tGRD border noise removal...')
     parameters = HashMap()
     parameters.put('Remove-GRD-Border-Noise', True)
     output = GPF.createProduct('Remove-GRD-Border-Noise', parameters, source)
@@ -49,6 +49,15 @@ def do_calibration(source, polarization, pols):
     output = GPF.createProduct("Calibration", parameters, source)
     return output
 
+def do_speckle_filtering(source):
+    print('\tSpeckle filtering...')
+    parameters = HashMap()
+    parameters.put('filter', 'Lee')
+    parameters.put('filterSizeX', 5)
+    parameters.put('filterSizeY', 5)
+    output = GPF.createProduct('Speckle-Filter', parameters, source)
+    return output
+
 def do_terrain_correction(source, proj, downsample):
     print('\tTerrain correction...')
     parameters = HashMap()
@@ -70,19 +79,10 @@ def do_subset(source, wkt):
     output = GPF.createProduct('Subset', parameters, source)
     return output
 
-def do_speckle_filtering(source):
-    print('\tSpeckle filtering...')
-    parameters = HashMap()
-    parameters.put('filter', 'Lee')
-    parameters.put('filterSizeX', 5)
-    parameters.put('filterSizeY', 5)
-    output = GPF.createProduct('Speckle-Filter', parameters, source)
-    return output
-
 def main():
     ## All Sentinel-1 data sub folders are located within a super folder (make sure the data is already unzipped, folder name ends with '.SAFE'):
-    path = r'D:\GitHub\Sentinel-1 pre-processing using Snappy\data\s1_images'
-    outpath = r'D:\GitHub\Sentinel-1 pre-processing using Snappy\data\s1_preprocessed'
+    path = r'data\s1_images'
+    outpath = r'data\s1_preprocessed'
     if not os.path.exists(outpath):
         os.makedirs(outpath)
     ## well-known-text (WKT) file for subsetting (can be obtained from SNAP by drawing a polygon)
@@ -123,39 +123,37 @@ def main():
         bordernoise = do_remove_GRD_border_noise(applyorbit)
         thermaremoved = do_thermal_noise_removal(bordernoise)
         calibrated = do_calibration(thermaremoved, polarization, pols)
+        down_filtered = do_speckle_filtering(calibrated)
         del applyorbit
         del bordernoise
         del thermaremoved
+        del calibrated
         ## IW images are downsampled from 10m to 40m (the same resolution as EW images).
         if (modestamp == 'IW' and productstamp == 'GRDH') or (modestamp == 'EW' and productstamp == 'GRDH'):
-            down_tercorrected = do_terrain_correction(calibrated, proj, 1)
+            down_tercorrected = do_terrain_correction(down_filtered, proj, 1)
             down_subset = do_subset(down_tercorrected, wkt)
-            down_filtered = do_speckle_filtering(down_subset)
-            del down_subset
+            del down_filtered
             del down_tercorrected
-            del calibrated
         elif modestamp == 'EW' and productstamp == 'GRDM':
-            tercorrected = do_terrain_correction(calibrated, proj, 0)
+            tercorrected = do_terrain_correction(down_filtered, proj, 0)
             subset = do_subset(tercorrected, wkt)
-            filtered = do_speckle_filtering(subset)
-            del subset
+            del down_filtered
             del tercorrected
-            del calibrated
         else:
             print("Different spatial resolution is found.")
 
         down = 1
-        try: down_filtered
+        try: down_subset
         except NameError:
             down = None
         if down is None:
             print("Writing...")
-            ProductIO.writeProduct(filtered, outpath + '\\' + folder[:-5], 'GeoTIFF')
-            del filtered
+            ProductIO.writeProduct(subset, outpath + '\\' + folder[:-5], 'GeoTIFF')
+            del subset
         elif down == 1:
             print("Writing undersampled image...")
-            ProductIO.writeProduct(down_filtered, outpath + '\\' + folder[:-5] + '_40', 'GeoTIFF')
-            del down_filtered
+            ProductIO.writeProduct(down_subset, outpath + '\\' + folder[:-5] + '_40', 'GeoTIFF')
+            del down_subset
         else:
             print("Error.")
 
