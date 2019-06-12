@@ -9,7 +9,7 @@
 3. Sentinel-1 pre-processing steps:
     
     (1) Apply orbit file  
-    (2) GRD border noise removal (optional)
+    (2) GRD border noise removal (optional)  
     (3) Thermal noise removal  
     (4) Radiometric calibration  
     (5) Speckle filtering  
