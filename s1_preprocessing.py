@@ -80,7 +80,7 @@ def do_subset(source, wkt):
     return output
 
 def main():
-    ## All Sentinel-1 data sub folders are located within a super folder (make sure the data is already unzipped, folder name ends with '.SAFE'):
+    ## All Sentinel-1 data sub folders are located within a super folder (make sure the data is already unzipped and each sub folder name ends with '.SAFE'):
     path = r'data\s1_images'
     outpath = r'data\s1_preprocessed'
     if not os.path.exists(outpath):
