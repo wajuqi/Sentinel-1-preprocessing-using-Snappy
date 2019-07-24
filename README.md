@@ -20,6 +20,10 @@
    This is the general pre-processing steps for Sentinel-1. Since each step is written in separate function, it can be cutomized based on user needs.
    IW images are downsampled from 10m to 40m (the same resolution as EW images) in the terrain correction step.
 
+
+#### Tips: If you would like to modify the parameters, you can refer to the graph builder file (.xml) which can be created in the Graph Builder of SNAP software.
+
+
 ### Support
 
 Please reach out to me at wajuqi@gmail.com.
