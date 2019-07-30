@@ -16,13 +16,6 @@ def do_apply_orbit_file(source):
     output = GPF.createProduct('Apply-Orbit-File', parameters, source)
     return output
 
-def do_remove_GRD_border_noise(source):
-    print('\tGRD border noise removal...')
-    parameters = HashMap()
-    parameters.put('Remove-GRD-Border-Noise', True)
-    output = GPF.createProduct('Remove-GRD-Border-Noise', parameters, source)
-    return output
-
 def do_thermal_noise_removal(source):
     print('\tThermal noise removal...')
     parameters = HashMap()
@@ -120,12 +113,10 @@ def main():
 
         ## Start preprocessing:
         applyorbit = do_apply_orbit_file(sentinel_1)
-        bordernoise = do_remove_GRD_border_noise(applyorbit)
-        thermaremoved = do_thermal_noise_removal(bordernoise)
+        thermaremoved = do_thermal_noise_removal(applyorbit)
         calibrated = do_calibration(thermaremoved, polarization, pols)
         down_filtered = do_speckle_filtering(calibrated)
         del applyorbit
-        del bordernoise
         del thermaremoved
         del calibrated
         ## IW images are downsampled from 10m to 40m (the same resolution as EW images).
