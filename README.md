@@ -21,6 +21,4 @@
 
 
 
-### Support
 
-Please reach out to me at wajuqi@gmail.com.
