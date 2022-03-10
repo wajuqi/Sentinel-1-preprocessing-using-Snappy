@@ -1,6 +1,5 @@
 # Need to configure Python to use the SNAP-Python (snappy) interface(https://senbox.atlassian.net/wiki/spaces/SNAP/pages/50855941/Configure+Python+to+use+the+SNAP-Python+snappy+interface)
 # Read in unzipped Sentinel-1 GRD products (EW and IW modes)
-# Parameters to provide: path, outpath, region_code
 
 import datetime
 import time
